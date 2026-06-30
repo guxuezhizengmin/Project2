@@ -1,0 +1,65 @@
+# Project: Project2
+# Makefile created by Red Panda C++ 3.4.3279
+
+CXX      = "g++.exe"
+CC       = "gcc.exe"
+WINDRES  = "windres.exe"
+RM       = del /q /f
+CD       = cd /d
+LIBS     = "-Wl,--stack,12582912"
+INCS     = 
+CXXINCS  = 
+CXXFLAGS = $(CXXINCS) "-g3" "-fno-ms-extensions" "-pipe" "-Wall" "-Werror=return-type" "-Werror=vla" "-D_DEBUG"
+CFLAGS   = $(INCS) "-g3" "-fno-ms-extensions" "-pipe" "-Wall" "-Werror=implicit-int" "-Werror=return-type" "-Werror=vla" "-D_DEBUG"
+NASM_FLAGS   =  "-f" "elf64" "-g"
+WINDRESFLAGS = 
+RES      = Project2_private.res
+OBJ      = common.o avl_tree.o hash_table.o persistence.o filter_sort.o linked_list.o perf_test.o stats.o main.o data_gen.o $(RES)
+BIN      = Project2.exe
+LINKOBJ  = "common.o" "avl_tree.o" "hash_table.o" "persistence.o" "filter_sort.o" "linked_list.o" "perf_test.o" "stats.o" "main.o" "data_gen.o" "Project2_private.res"
+CLEANOBJ = "common.o" "avl_tree.o" "hash_table.o" "persistence.o" "filter_sort.o" "linked_list.o" "perf_test.o" "stats.o" "main.o" "data_gen.o" "Project2_private.res" "Project2.exe"
+
+.PHONY: all all-before all-after clean clean-custom
+
+all: all-before $(BIN) all-after
+
+clean: clean-custom
+	-$(RM) $(CLEANOBJ) >NUL 2>&1
+
+Project2.exe: $(OBJ)
+
+	$(CC) $(LINKOBJ) -o "Project2.exe" $(LIBS)
+
+common.o: common.c common.h
+	$(CC) -c "common.c" -o "common.o" $(CFLAGS)  -finput-charset=UTF-8 -fexec-charset=gbk
+
+avl_tree.o: avl_tree.c common.h avl_tree.h
+	$(CC) -c "avl_tree.c" -o "avl_tree.o" $(CFLAGS)  -finput-charset=UTF-8 -fexec-charset=gbk
+
+hash_table.o: hash_table.c common.h hash_table.h
+	$(CC) -c "hash_table.c" -o "hash_table.o" $(CFLAGS)  -finput-charset=UTF-8 -fexec-charset=gbk
+
+persistence.o: persistence.c common.h persistence.h
+	$(CC) -c "persistence.c" -o "persistence.o" $(CFLAGS)  -finput-charset=UTF-8 -fexec-charset=gbk
+
+filter_sort.o: filter_sort.c common.h filter_sort.h
+	$(CC) -c "filter_sort.c" -o "filter_sort.o" $(CFLAGS)  -finput-charset=UTF-8 -fexec-charset=gbk
+
+linked_list.o: linked_list.c common.h linked_list.h
+	$(CC) -c "linked_list.c" -o "linked_list.o" $(CFLAGS)  -finput-charset=UTF-8 -fexec-charset=gbk
+
+perf_test.o: perf_test.c common.h hash_table.h avl_tree.h linked_list.h data_gen.h filter_sort.h perf_test.h
+	$(CC) -c "perf_test.c" -o "perf_test.o" $(CFLAGS)  -finput-charset=UTF-8 -fexec-charset=gbk
+
+stats.o: stats.c common.h stats.h
+	$(CC) -c "stats.c" -o "stats.o" $(CFLAGS)  -finput-charset=UTF-8 -fexec-charset=gbk
+
+main.o: main.c common.h hash_table.h avl_tree.h persistence.h linked_list.h data_gen.h stats.h filter_sort.h perf_test.h
+	$(CC) -c "main.c" -o "main.o" $(CFLAGS)  -finput-charset=UTF-8 -fexec-charset=gbk
+
+data_gen.o: data_gen.c common.h data_gen.h
+	$(CC) -c "data_gen.c" -o "data_gen.o" $(CFLAGS)  -finput-charset=UTF-8 -fexec-charset=gbk
+
+Project2_private.res: Project2_private.rc 
+	$(WINDRES) -i "Project2_private.rc" --input-format=rc -o "Project2_private.res" -O coff $(WINDRESFLAGS) 
+
